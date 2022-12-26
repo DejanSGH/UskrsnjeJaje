@@ -12,6 +12,8 @@ public class Boja implements Uporediv {
         this.g = 0;
         this.b = 0;
 
+        this.vrednostiBoja = new int[]{r,b,g};
+
     }
 
     public Boja(int r, int g, int b) {

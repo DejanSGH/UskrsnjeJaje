@@ -1,7 +1,8 @@
 public class Jaje implements Uporediv, Cloneable {
 
     private Boja boja;
-    private static int id = 0; //ne radi ID
+    private static int brojac = 0;
+    private  int zasebanID;
     enum Velicina{MALO, SREDNJE, VELIKO};
 
     private Velicina velicina;
@@ -9,27 +10,26 @@ public class Jaje implements Uporediv, Cloneable {
 
     public Jaje(Jaje jaje){
         this.boja = jaje.boja;
-        id = id;
+        this.zasebanID = jaje.zasebanID;
         this.velicina = jaje.velicina;
     }
 
     public Jaje(Boja boja, Velicina v) {
         this.boja = boja;
         this.velicina = v;
-        id++;
+        brojac++;
+        this.zasebanID = brojac;
     }
 
     @Override
     public int slicnost(Object o1) throws GNeuporedivi {
         Jaje j = (Jaje)o1;
         if(!jelUporedivo(j)) throw new GNeuporedivi();
-
+        int rezultat = this.boja.slicnost(j.boja);
         if(this.boja.slicnost(j.boja) == 0 && this.velicina == j.velicina){
-            System.out.println("Jaja su slicna");
-            return 1;
+            return rezultat;
         }
-        System.out.println("Jaja nisu slicna");
-        return 0;
+        return rezultat;
     }
 
     @Override
@@ -40,12 +40,13 @@ public class Jaje implements Uporediv, Cloneable {
         return false;
     }
 
+
     public Boja getBoja() {
         return boja;
     }
 
-    public int getId() {
-        return id;
+    public int getZasebanID() {
+        return zasebanID;
     }
 
     public Velicina getVelicina() {
@@ -54,10 +55,11 @@ public class Jaje implements Uporediv, Cloneable {
 
     public String toString(){
         //Jaje_ид:боја-величина
-        return "Jaje_" + this.id + ":" + this.boja + "-" + this.velicina;
+        return "Jaje_" + zasebanID + ":" + this.boja + "-" + this.velicina;
     }
 
     public Jaje clone(){
         return new Jaje(this);
     }
+
 }
