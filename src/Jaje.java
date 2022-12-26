@@ -8,10 +8,10 @@ public class Jaje implements Uporediv, Cloneable {
     private Velicina velicina;
 
 
-    public Jaje(Jaje jaje){
-        this.boja = jaje.boja;
-        this.zasebanID = jaje.zasebanID;
-        this.velicina = jaje.velicina;
+    public Jaje(Jaje jajeOriginal){
+        this.boja = new Boja(jajeOriginal.boja.dohvR(),jajeOriginal.boja.dohvG(),jajeOriginal.boja.dohvB());
+        this.zasebanID = ++brojac;
+        this.velicina = jajeOriginal.velicina;
     }
 
     public Jaje(Boja boja, Velicina v) {
@@ -22,23 +22,17 @@ public class Jaje implements Uporediv, Cloneable {
     }
 
     @Override
-    public int slicnost(Object o1) throws GNeuporedivi {
-        Jaje j = (Jaje)o1;
-        if(!jelUporedivo(j)) throw new GNeuporedivi();
-        int rezultat = this.boja.slicnost(j.boja);
-        if(this.boja.slicnost(j.boja) == 0 && this.velicina == j.velicina){
-            return rezultat;
+    public boolean jednako(Uporediv u) throws GNeuporedivi {
+
+        if(u instanceof Jaje){
+            Jaje jaje = (Jaje)u;
+            return jaje.velicina == ((Jaje) u).velicina && boja.jednako(jaje.boja);
+
         }
-        return rezultat;
+
+        throw new GNeuporedivi();
     }
 
-    @Override
-    public boolean jelUporedivo(Object o1) {
-        if(Jaje.this.getClass().equals(o1.getClass())){
-            return true;
-        }
-        return false;
-    }
 
 
     public Boja getBoja() {
@@ -58,8 +52,10 @@ public class Jaje implements Uporediv, Cloneable {
         return "Jaje_" + zasebanID + ":" + this.boja + "-" + this.velicina;
     }
 
-    public Jaje clone(){
+    public Jaje clone() {
         return new Jaje(this);
+//        Jaje novo = (Jaje)super.clone();
+        // duboka kopija ispod
     }
 
 }

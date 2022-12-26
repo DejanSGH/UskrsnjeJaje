@@ -1,3 +1,3 @@
-public class GKorpaPuna {
+public class GKorpaPuna extends Exception {
 
 }

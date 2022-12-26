@@ -4,7 +4,7 @@ public class Boja implements Uporediv {
     private int r;
     private int g;
     private int b;
-    private int[] vrednostiBoja;
+
 
     public Boja(){
 
@@ -12,20 +12,19 @@ public class Boja implements Uporediv {
         this.g = 0;
         this.b = 0;
 
-        this.vrednostiBoja = new int[]{r,b,g};
 
     }
 
     public Boja(int r, int g, int b) {
 
-        this.vrednostiBoja = new int[]{r,b,g};
+        int[] vrednostiBoja = new int[]{r,b,g};
 
-        for (int i = 0; i < this.vrednostiBoja.length; i++) {
-            if(this.vrednostiBoja[i] > 255){
-                this.vrednostiBoja[i] = 255;
+        for (int i = 0; i < vrednostiBoja.length; i++) {
+            if(vrednostiBoja[i] > 255){
+                vrednostiBoja[i] = 255;
             }
-            else if (this.vrednostiBoja[i] < 0) {
-                this.vrednostiBoja[i] = 0;
+            else if (vrednostiBoja[i] < 0) {
+                vrednostiBoja[i] = 0;
             }
             this.r = vrednostiBoja[0];
             this.g = vrednostiBoja[1];
@@ -35,27 +34,20 @@ public class Boja implements Uporediv {
     }
 
     @Override
-    public int slicnost(Object o1) throws GNeuporedivi {
+    public boolean jednako(Uporediv u) throws GNeuporedivi {
 
-        Boja b1 = (Boja)o1;
-
-        if(!jelUporedivo(b1)) throw new GNeuporedivi();
-
-        int rezultat = 0;
-
-        for (int i = 0; i < b1.vrednostiBoja.length; i++) {
-            rezultat += Math.abs((this.vrednostiBoja[i] - b1.vrednostiBoja[i]));
+        if(u instanceof Boja){
+            Boja boja = (Boja)u;
+            return (r == boja.r && g == boja.g && b == boja.b );
         }
-        return rezultat;
+        throw new GNeuporedivi();
     }
 
-    @Override
-    public boolean jelUporedivo(Object o1){
-        if(Boja.this.getClass().equals(o1.getClass())){
-            return true;
-        }
-        return false;
+    public int slicnost(Boja b){
+
+        return Math.abs(this.b - b.b) + Math.abs(this.r - b.r) + Math.abs(this.g - b.g);
     }
+
 
     public int dohvR() {
         return r;

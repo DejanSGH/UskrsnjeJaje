@@ -2,12 +2,12 @@ import java.util.ArrayList;
 
 public class Izlozba {
 
-    private ArrayList<Korpa> izlozba;
+    private ArrayList<Korpa> korpe;
     private int brojPobeda;
     private boolean jelZapocetoTakmicenje = false;
 
     public Izlozba() {
-        this.izlozba = new ArrayList<>();
+        this.korpe = new ArrayList<>();
     }
 
     public void dodaj(Korpa korpa){
@@ -20,16 +20,16 @@ public class Izlozba {
             return;
         }
         else{
-            izlozba.add(korpa);
+            korpe.add(korpa);
         }
 
     }
     private boolean postojiLiKorpaUIzlozbi(Korpa korpa){
-        if(izlozba.isEmpty()){
+        if(korpe.isEmpty()){
             return false;
         }
-        for (int i = 0; i < izlozba.size(); i++) {
-            if(izlozba.get(i).equals(korpa)){
+        for (int i = 0; i < korpe.size(); i++) {
+            if(korpe.get(i).equals(korpa)){
                 return true;
             }
         }
@@ -37,39 +37,40 @@ public class Izlozba {
     }
 
     private int brojKorpiNaIzlozbi(){
-        return izlozba.size();
+        return korpe.size();
     }
 
     public void zapocni(){
         this.jelZapocetoTakmicenje = true;
+        for (Korpa k: korpe) {
+            k.setBrojPobeda(0);
+        }
     }
 
-    public Jaje odrziKrug(Boja boja, Jaje.Velicina velicina) throws GNeuporedivi {
-        Korpa korpa = new Korpa("Pobednik iz svake korpe", izlozba.size());
-        for (int i = 0; i < izlozba.size(); i++) {
-            for (int j = 0; j < izlozba.get(i).getKorpica().size(); j++) {
-                korpa.dodaj(izlozba.get(i).uzmiNajbolje(boja, velicina));
-            }
-        }
-        Jaje pobednik = new Jaje(korpa.uzmiNajbolje(boja, velicina));
-        for (int i = 0; i < izlozba.size(); i++) {
-            for (int j = 0; j < izlozba.get(i).getKorpica().size(); j++) {
-                if(izlozba.get(i).getKorpica().get(j).slicnost(pobednik) == 0){
-                    izlozba.get(i).setBrojPobeda(1);
+    public Jaje odrziKrug(Boja boja, Jaje.Velicina velicina)  {
+        Korpa najboljaKorpa = korpe.get(0);
+        Jaje najboljeJaje = najboljaKorpa.uzmiNajbolje(boja, velicina);
+        for (Korpa k: korpe) {
+            Jaje t = k.uzmiNajbolje(boja, velicina);
+            if(t != null){
+                if(najboljeJaje == null || t.getBoja().slicnost(boja) < najboljeJaje.getBoja().slicnost(boja)){
+                    najboljeJaje = t;
+                    najboljaKorpa = k;
                 }
             }
         }
-        return new Jaje(korpa.uzmiNajbolje(boja, velicina));
+        najboljaKorpa.povecajBrojPobeda();
+        return najboljeJaje;
     }
 
     public String toString(){
         //Korpa:Uskrsnja radost[Jaje_1:RGB(255,0,0)-MALO]-Broj_pobeda:0
         String str = "";
-        for (int i = 0; i < izlozba.size(); i++) {
-            if(izlozba.get(i).getBrojPobeda() > 0){
+        for (int i = 0; i < korpe.size(); i++) {
+            if(korpe.get(i).getBrojPobeda() > 0){
                 str = "V:";
             }
-            System.out.println(str + izlozba.get(i).toString() + "-Broj_pobeda:" + izlozba.get(i).getBrojPobeda() );
+            System.out.println(str + korpe.get(i).toString() + "-Broj_pobeda:" + korpe.get(i).getBrojPobeda() );
         }
         return "";
     }

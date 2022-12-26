@@ -57,18 +57,26 @@ public class Main {
         Jaje j2 = new Jaje(zelena, Jaje.Velicina.SREDNJE);
         Jaje j3 = new Jaje(plava, Jaje.Velicina.SREDNJE);
         Korpa k1 = new Korpa("Uskrsnja radost", 3);
+        try{
             k1.dodaj(j1); k1.dodaj(j2); k1.dodaj(j3);
 // Neuspesno dodavanje jajeta - korpa je popunjena
             k1.dodaj(new Jaje(crvena, Jaje.Velicina.VELIKO));
+        }
+        catch(GKorpaPuna g) {}
+        catch(Exception g) {}
 // Uzimanje jajeta iz korpe koje najbolje odgovara zadatim kriterijumima
         Jaje naj = k1.uzmiNajbolje(new Boja(0, 100, 200), Jaje.Velicina.SREDNJE);
         System.out.println("Jaje koje najbolje odgovara kriterijumima: " + naj);
         Jaje j4 = new Jaje(bela, Jaje.Velicina.MALO);
         Jaje j5 = new Jaje(crna, Jaje.Velicina.SREDNJE);
         Korpa k2 = new Korpa("Minimalisticka korpa", 2);
+        try{
             k2.dodaj(j4); k2.dodaj(j5);
 // Neuspesno dodavanje jajeta - jaje vec postoji u korpi
             k2.dodaj(j4.clone());
+        }
+        catch(GVecPostoji g) {}
+        catch(Exception g) {}
         Izlozba i = new Izlozba();
         i.dodaj(k1); i.dodaj(k2);
         i.zapocni();

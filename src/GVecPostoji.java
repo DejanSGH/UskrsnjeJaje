@@ -1,3 +1,3 @@
-public class GVecPostoji {
+public class GVecPostoji extends Exception{
 
 }
